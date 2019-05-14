@@ -11,7 +11,18 @@ var browserify = require("browserify");
 var source = require("vinyl-source-stream");
 var gulpSequence = require('gulp-sequence')
 var browserSync = require('browser-sync').create();
-let staticSrc = 'serankRank_mob'
+var plumber = require('gulp-plumber');
+let staticSrc = '2019-520-wap3'
+const htmlOption = {
+  collapseWhitespace:true,
+  collapseBooleanAttributes:true,
+  removeComments:true,
+  removeEmptyAttributes:true,
+  removeScriptTypeAttributes:true,
+  removeStyleLinkTypeAttributes:true,
+  minifyJS:false,
+  minifyCSS:false   
+}
 // img
 gulp.task('image', function () {
   return gulp.src('src/img/*.*')
@@ -21,19 +32,24 @@ gulp.task('image', function () {
 gulp.task('scriptsJs', function() {
   return gulp.src('src/js/*.js')
     .pipe(babel())
-    .pipe(uglify())
+    // .pipe(uglify())
     // .pipe(uglify()) //压缩js
     .pipe(gulp.dest(staticSrc +'/js/'))
 });
+// lib
+gulp.task('copyLib', function () {
+  return gulp.src('src/lib/*.*')
+    .pipe(gulp.dest(staticSrc +'/lib/'))
+})
 // browserify
-gulp.task("browserify", function () {
-  var b = browserify({
-      entries: staticSrc + "/js/app.js"
-  });
-  return b.bundle()
-      .pipe(source("main.js"))
-      .pipe(gulp.dest(staticSrc + "/js"));
-});
+// gulp.task("browserify", function () {
+//   var b = browserify({
+//       entries: staticSrc + "/js/app.js"
+//   });
+//   return b.bundle()
+//       .pipe(source("main.js"))
+//       .pipe(gulp.dest(staticSrc + "/js"));
+// });
 // less
 gulp.task('less', function () {
   var plugins = [
@@ -41,55 +57,27 @@ gulp.task('less', function () {
     cssnano()
   ];
   return gulp.src('src/less/**/*.less')
+    .pipe(plumber())
     .pipe(less({
       paths: [ path.join(__dirname, 'less', 'includes') ]
     }))
     .pipe(postcss(plugins))
     .pipe(gulp.dest(staticSrc +'/css'));
 });
-// // css
-// gulp.task('css', function () {
-//   var plugins = [
-//     autoprefixer({browsers: ['last 1 version']}),
-//     cssnano()
-//   ];
-//   return gulp.src('src/css/*.css')
-//       .pipe(gulp.dest(staticSrc +'/css'));
-// })
 //index.html
 gulp.task('indexhtml', function() {
-  var options = {
-    collapseWhitespace:true,
-    collapseBooleanAttributes:true,
-    removeComments:true,
-    removeEmptyAttributes:true,
-    removeScriptTypeAttributes:true,
-    removeStyleLinkTypeAttributes:true,
-    minifyJS:true,
-    minifyCSS:true   
-  };
-  return gulp.src('src/index.html')
-    .pipe(htmlmin(options))
+  return gulp.src('src/*.html')
+    // .pipe(htmlmin(htmlOption))
     .pipe(gulp.dest(staticSrc + '/'))
 });
-//html
-gulp.task('html', function() {
-  var options = {
-    collapseWhitespace:true,
-    collapseBooleanAttributes:true,
-    removeComments:true,
-    removeEmptyAttributes:true,
-    removeScriptTypeAttributes:true,
-    removeStyleLinkTypeAttributes:true,
-    minifyJS:true,
-    minifyCSS:true   
-  };
-  return gulp.src('src/html/*.html')
-    .pipe(htmlmin(options))
-    .pipe(gulp.dest(staticSrc +'/html'))
-});
+// //html
+// gulp.task('html', function() {
+//   return gulp.src('src/html/*.html')
+//     .pipe(htmlmin(htmlOption))
+//     .pipe(gulp.dest(staticSrc +'/html'))
+// });
 //预设任务
-gulp.task('default', gulpSequence('indexhtml', 'scriptsJs',  'html', 'less', 'image', 'browserify', function (){
+gulp.task('default', gulpSequence('indexhtml', 'scriptsJs', 'copyLib', 'less', 'image', function (){
     browserSync.init({
       server: {
         baseDir: staticSrc + '/',
@@ -99,9 +87,10 @@ gulp.task('default', gulpSequence('indexhtml', 'scriptsJs',  'html', 'less', 'im
     gulp.watch('src/less/*.less', ['less']).on('change', browserSync.reload)
     gulp.watch('src/img/*.{png,jpg}', ['image']).on('change', browserSync.reload)
     // gulp.watch('src/css/*.css', ['css']).on('change', browserSync.reload)
-    gulp.watch('src/js/*.js', ['scriptsJs', 'browserify']).on('change', browserSync.reload)
+    gulp.watch('src/js/*.js', ['scriptsJs']).on('change', browserSync.reload)
     gulp.watch('src/*.html', ['indexhtml']).on('change', browserSync.reload)
     gulp.watch('src/html/*.html', ['html']).on('change', browserSync.reload)
+    gulp.watch('src/lib/*.*', ['copyLib']).on('change', browserSync.reload)
 }))
 
 gulp.task('build', function () {

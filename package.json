@@ -1,5 +1,5 @@
 {
-  "name": "searchrank_mob",
+  "name": "zt_gulp_template",
   "version": "1.0.0",
   "description": "",
   "main": "gulpfile.js",
@@ -20,6 +20,7 @@
     "gulp-clean-css": "^4.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-less": "^4.0.1",
+    "gulp-plumber": "^1.2.1",
     "gulp-postcss": "^8.0.0",
     "gulp-rename": "^1.4.0",
     "gulp-sequence": "^1.0.0",
