@@ -32,8 +32,7 @@ gulp.task('image', function () {
 gulp.task('scriptsJs', function() {
   return gulp.src('src/js/*.js')
     .pipe(babel())
-    // .pipe(uglify())
-    // .pipe(uglify()) //压缩js
+    .pipe(uglify()) //压缩js
     .pipe(gulp.dest(staticSrc +'/js/'))
 });
 // lib
@@ -86,7 +85,6 @@ gulp.task('default', gulpSequence('indexhtml', 'scriptsJs', 'copyLib', 'less', '
     // 监视所有css、js、html、less
     gulp.watch('src/less/*.less', ['less']).on('change', browserSync.reload)
     gulp.watch('src/img/*.{png,jpg}', ['image']).on('change', browserSync.reload)
-    // gulp.watch('src/css/*.css', ['css']).on('change', browserSync.reload)
     gulp.watch('src/js/*.js', ['scriptsJs']).on('change', browserSync.reload)
     gulp.watch('src/*.html', ['indexhtml']).on('change', browserSync.reload)
     gulp.watch('src/html/*.html', ['html']).on('change', browserSync.reload)
