@@ -12,7 +12,7 @@ var source = require("vinyl-source-stream");
 var gulpSequence = require('gulp-sequence')
 var browserSync = require('browser-sync').create();
 var plumber = require('gulp-plumber');
-let staticSrc = '2019-520-wap3'
+let staticSrc = 'zt_gulp_project'
 const htmlOption = {
   collapseWhitespace:true,
   collapseBooleanAttributes:true,
