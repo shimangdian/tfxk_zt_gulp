@@ -31,6 +31,7 @@ gulp.task('image', function () {
 // js脚本
 gulp.task('scriptsJs', function() {
   return gulp.src('src/js/*.js')
+    .pipe(plumber())
     .pipe(babel())
     .pipe(uglify()) //压缩js
     .pipe(gulp.dest(staticSrc +'/js/'))
