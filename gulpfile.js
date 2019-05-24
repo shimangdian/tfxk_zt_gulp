@@ -12,6 +12,7 @@ var source = require("vinyl-source-stream");
 var gulpSequence = require('gulp-sequence')
 var browserSync = require('browser-sync').create();
 var plumber = require('gulp-plumber');
+var imageMin = require('gulp-imagemin'); // 图片压缩
 let staticSrc = 'zt_gulp_project'
 const htmlOption = {
   collapseWhitespace:true,
@@ -26,6 +27,7 @@ const htmlOption = {
 // img
 gulp.task('image', function () {
   return gulp.src('src/img/*.*')
+    .pipe(imageMin({progressive: true}))
     .pipe(gulp.dest(staticSrc +'/img/'))   //改变后的位置
 });
 // js脚本
