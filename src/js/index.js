@@ -1,10 +1,10 @@
-window.onload = function () {
-    var app = new Vue({
-        el: '#app',
-        data: {},
-        created () {
-        },
-        methods: {
-        }
-    })
-}
+// window.onload = function () {
+//     var app = new Vue({
+//         el: '#app',
+//         data: {},
+//         created () {
+//         },
+//         methods: {
+//         }
+//     })
+// }

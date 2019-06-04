@@ -13,15 +13,214 @@
     <link rel="stylesheet" type="text/css" href="http://ahj.cm/wap/templates/hua/css/topic.css?version=20190325">
     <link rel="stylesheet" type="text/css" href="http://ahj.cm/wap/templates/hua/css/topic_base.css?version=20190325">
     <link rel="stylesheet" href="./css/index.css">
+    <script src='./js/rem25.js'></script>
+    <script src="./lib/jquery.js"></script>
+    <script>baseUrl = ''</script>
+    <!-- <script>baseUrl = '//www.aihuaju.com'</script> -->
+    <!-- 引入美洽的js，下方聊天系统 -->
+    <script async="" charset="UTF-8" src="http://static.meiqia.com/dist/meiqia.js?_=t"></script>
+    <style type="text/css" id="MEIQIA-ICON-STYLE">.MEIQIA-ICON { background-size: 40px auto !important; background-repeat: no-repeat !important; background-image: url('https://resource.meiqia.com/dist/images/icon-mq.png?v=ze53y6fticj') !important; } @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2) { .MEIQIA-ICON { background-image: url('https://resource.meiqia.com/dist/images/icon-mq@2x.png?v=ze53y6fticj') !important; } } .MEIQIA-ICON-CHAT1 { background-position: 0 0 !important; } .MEIQIA-ICON-CHAT2 { background-position: 0 -20px !important; } .MEIQIA-ICON-CHAT3 { background-position: 0 -40px !important; } .MEIQIA-ICON-CHAT4 { background-position: 0 -60px !important; } .MEIQIA-ICON-CHAT5 { background-position: 0 -80px !important; } .MEIQIA-ICON-CHAT6 { background-position: 0 -100px !important; } .MEIQIA-ICON-CHAT7 { background-position: 0 -120px !important; } .MEIQIA-ICON-CHAT8 { background-position: 0 -140px !important; } .MEIQIA-ICON-CHAT9 { background-position: 0 -160px !important; } .MEIQIA-ICON-CHAT10 { background-position: 0 -180px !important; } .MEIQIA-ICON-CHAT11 { background-position: 0 -200px !important; } .MEIQIA-ICON-CHAT12 { background-position: 0 -220px !important; } .MEIQIA-ICON-TICKET1 { background-position: -20px 0 !important; } .MEIQIA-ICON-TICKET2 { background-position: -20px -20px !important; } .MEIQIA-ICON-TICKET3 { background-position: -20px -40px !important; } .MEIQIA-ICON-TICKET4 { background-position: -20px -60px !important; } .MEIQIA-ICON-TICKET5 { background-position: -20px -80px !important; } .MEIQIA-ICON-TICKET6 { background-position: -20px -100px !important; } .MEIQIA-ICON-TICKET7 { background-position: -20px -120px !important; } .MEIQIA-ICON-TICKET8 { background-position: -20px -140px !important; } .MEIQIA-ICON-TICKET9 { background-position: -20px -160px !important; } .MEIQIA-ICON-TICKET10 { background-position: -20px -180px !important; } .MEIQIA-ICON-TICKET11 { background-position: -20px -200px !important; } .MEIQIA-ICON-TICKET12 { background-position: -20px -220px !important; } </style>
   </head>
   <body>
     <div id='app'>
       欢迎使用·专题页面脚手架·
+      <!-- 加载框 -->
+      <div class="loading" id='loading'>
+        <div class="spinner">
+          <div class="rect1"></div>
+          <div class="rect2"></div>
+          <div class="rect3"></div>
+          <div class="rect4"></div>
+          <div class="rect5"></div>
+        </div>
+      </div>
     </div>
-    <script src="http://i.aihuaju.com/js/jqcore.js?v=20190325"></script>
-    <script src='./js/rem.js'></script>
-    <script src="./lib/vue.js"></script>
-    <script src="./js/util.js"></script>
+    <!-- 公共的底部 -->
+    <div class="common-footer" style='margin-bottom: 2.8rem;'>
+      <footer id="footer" class="bottom">
+        <div class="nctouch-footer-wrap posr">
+          <div class="nav-text">
+            <span id="dynamic_nav1">
+              <a rel="nofollow" href="/wap/login.html">登录</a>
+              <a rel="nofollow" href="/wap/register.html">注册</a>
+            </span>
+            <a rel="nofollow" id="a_to_pc" href="http://www.aihuaju.com?to=pc&amp;s=1559274493158">电脑版</a>
+            <a rel="nofollow" href="/wap/member_feedback.html">反馈</a>
+          </div>
+          <div class="nav-link" id="dynamic_nav2">
+            <a rel="nofollow" href="/wap/search_order.html">订单查询&nbsp;&nbsp;<em class="split">|</em></a>
+            <a rel="nofollow" href="/wap/replenishment_order.html">&nbsp;&nbsp;在线补款</a>
+          </div>
+          <div class="copyright" style="color:#ddd;">
+            Copyright&nbsp;©&nbsp;2005-
+            2019 <a href="javascript:void(0);" style="color:#ddd;font-weight:300;font-size: 0.5rem">爱花居电子商务有限公司</a>版权所有 </div>
+        </div>
+      </footer>
+      <!-- 返回顶部按钮 -->
+      <div class="fix-block-r">
+        <a href="#app" class="gotop-btn gotop" id="goTopBtn">
+          <i>
+          </i>
+        </a>
+      </div>
+      <!-- 底部导航，4个按钮 -->
+      <footer id="footer_m" class="bottom" style="position:fixed;z-index:50000;">
+        <div id="footnav" style="padding-bottom:0rem" class="footnav clearfix">
+          <style>
+            .flex_layout .item {
+              flex-grow: 1
+            }
+      
+            .flex_layout .ye1 {
+              background-color: #ff8954;
+              color: #fff;
+            }
+      
+            .flex_layout .ye1 img {
+              margin-top: 0.2rem;
+            }
+      
+            .flex_layout .re1 {
+              background-color: #ff4444;
+              color: #fff;
+            }
+      
+            .flex_layout .re1 img {
+              margin-top: 0.2rem;
+            }
+      
+            .unreadNum {
+              width: 0.8rem !important;
+              height: 0.8rem !important;
+              line-height: 0.8rem !important;
+              margin-left: 3rem;
+            }
+          </style>
+          <div class="new_layout_bottom flex_layout">
+            <div class="item all" style="width: 10%; border-right: 1px solid #efefef;">
+              <a href="/wap/" style="color: #ff4444; line-height: 1.2rem;">
+                <img src="http://ahj.cm/data/upload/images/index.png" lazy="false" width="30%"><br>首页
+              </a>
+            </div>
+            <script>
+              function down_app() {
+                $.ajax({url: "/wap/index.php?act=index&op=ajax_app_url", data: {}, success: function (data) {
+                    if (data.code == 1) {
+                      window.location.href = data.url;
+                    }
+                  }
+                })
+              }
+            </script>
+            <div class="item index" style="flex-grow: 2" onclick="down_app()">
+              <div style="width: 35%; float: left;">
+                <a href="javascript:">
+                  <img src="http://ahj.cm/static/images/ahj_hongb.png" lazy="false" width="80%">
+                </a>
+              </div>
+              <div
+                style="width: 60%; float: left; color: #ff4444; font-size: 0.8rem; line-height: 1.2rem; padding-top: 0.3rem;">
+                下载APP<br><span style="color: #ff4444; font-size: 0.5rem;">领100元红包</span>
+              </div>
+            </div>
+            <div class="item ye1">
+              <a href="tel:4006-728-555">
+                <img src="http://ahj.cm/static/images/ahj_phone.png" lazy="false" width="20%"><br>400电话
+              </a>
+            </div>
+            <div class="item re1">
+              <!-- <span class="unreadNum" id="unreadNum" onclick="_MEIQIA('showPanel')"></span> -->
+              <a href="javascript:void(0)" onclick="_MEIQIA('showPanel')">
+                <img src="http://ahj.cm/static/images/ahj_kefu.png" lazy="false" width="18%"><br>1对1客服
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <!-- 美洽的代码 -->
+      <script>
+        /**
+         * [处理未读消息]
+         * @param  {[string, object]} msg [string: 'hasBeenRead',
+         object: 未读消息数据]
+          */
+        function yourFunction(msg) {
+              var text = '',
+                  num = 0;
+              if (msg === 'hasBeenRead') { // 消息已被阅读
+                  num = 0;
+              } else if (typeof(msg) === 'object') {
+                  var unreadNum = $('#unreadNum').html(),
+                      lastMsg = msg[msg.length - 1];
+                  num = isNaN(+unreadNum) ? msg.length : +unreadNum + msg.length;
+                  // content_type 是消息的类型：
+                  // text（文字）、photo（图片）、file（文件）
+                  // content 是消息的内容
+                  if (lastMsg.content_type === 'text') {
+                      // 文字消息中可能会存在表情图片，由于路径问题
+                      // 将文字消息中的图片处理为文字'[表情]'
+                      text = lastMsg.content.replace(
+                          /<img [^>]*src=['"]([^'"]+)[^>]*>/gi, '[表情]'
+                      );
+                  } else if (lastMsg.content_type === 'photo') {
+                      text = '[图片]';
+                  } else if (lastMsg.content_type === 'file') {
+                      text = '[文件]';
+                  } else {
+                      text = '[新消息]';
+                  }
+              }
+              // 未读消息数量
+              if (num > 0) {
+                  $('#unreadNum').html(num);
+                  $('#unreadNum').css('display', 'block');
+              } else {
+                  $('#unreadNum').hide();
+              }
+              // 最后一条消息的内容
+              /* document.getElementById('unreadMsg').innerHTML = text;
+               $('#unreadMsg').html(text);
+               $('#unreadMsg').show(text);*/
+          }
+      </script>
+      <script type="text/javascript">
+        (function (m, ei, q, i, a, j, s) {
+          m[i] = m[i] || function () {
+            (m[i].a = m[i].a || []).push(arguments)
+          };
+          j = ei.createElement(q),
+            s = ei.getElementsByTagName(q)[0];
+          j.async = true;
+          j.charset = 'UTF-8';
+          j.src = 'http://static.meiqia.com/dist/meiqia.js?_=t';
+          s.parentNode.insertBefore(j, s);
+        })(window, document, 'script', '_MEIQIA');
+        _MEIQIA('entId', 47341);
+        _MEIQIA('convClickCallback', function (type, convId) {
+          if (type === 'conv') {
+            var child = document.createElement('script'), parent = document.getElementsByTagName('head')[0];
+            child.async = true;
+            child.charset = 'UTF-8';
+            child.src = '//www.aihuaju.com/index.php?act=api&branch=conversations_from_mq&conv_id=' + convId;
+            child.onload = child.onreadystatechange = function () {
+              if (!this.readyState || this.readyState === "loaded" || this.readyState === "complete") {
+                setTimeout(function () {
+                  parent.removeChild(child);
+                }, 100);
+              }
+            };
+            parent.appendChild(child);
+          }
+        });
+      </script>
+      <script type="text/javascript">
+        // 当你使用了「手动初始化」时，就可以在自己的逻辑中选择合适的时机调用 getUnreadMsg
+        // 只要是在美洽初始化之前，就可以被正确执行
+        _MEIQIA('getUnreadMsg', yourFunction);
+        _MEIQIA('withoutBtn');
+        _MEIQIA('init');
+      </script>
+    </div>
     <script src="./js/index.js"></script>
   </body>
 </html>

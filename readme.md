@@ -1,6 +1,6 @@
 ### 包含功能：
 1. 模板渲染，使用vue
-2. 网络请求使用本项目自带请求方法
+2. 网络请求使用本项目自带请求方法(以移除，使用jq的，因为反正都要引入jq, 就把我自己的砍掉了)
 ```javascript
     ajax({
         url: String,
@@ -12,7 +12,7 @@
         returnIsJSON: Boolean, // true: 返回的不是json对象，不使用JSON模块转换
     })
 ```
-3. 多功能常用工具库：
+3. 多功能常用工具库（砍掉了，不过）：
 ```javascript
     hoye: {
         getQueryString: getQueryString, // 获取url携带的参数
@@ -38,5 +38,13 @@
 ```
 6. 验证模块
 ```javascript
-    
+    <script src='./js/verify.js'></script>
+    // or
+    import verify from './js/verify.js'
+    // or
+    var verify = require('./js/verify.js')
+
+    verify.tel('15982417873') //return true
+    verify.tel('1598241787') //return false
+    // 等等...
 ```

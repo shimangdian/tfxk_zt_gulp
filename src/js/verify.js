@@ -19,11 +19,11 @@
     }  
   }
   if (typeof module !== 'undefined' && typeof exports === 'object') {
-    module.exports = verify()
+    module.exports = verify
   } else if (typeof define === 'function ' && (define.cmd || define.amd)) {
     define(verify)
   } else {
-    global.verify = verify()
+    global.verify = verify
   }
 })(typeof window !== 'undefined' ? window : global)
 
