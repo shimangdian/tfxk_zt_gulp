@@ -35,34 +35,101 @@
         </div>
       </div>
     </div>
-    <!-- 公共的底部 -->
-    <div class="common-footer" style='margin-bottom: 2.8rem;'>
-      <footer id="footer" class="bottom">
-        <div class="nctouch-footer-wrap posr">
-          <div class="nav-text">
-            <span id="dynamic_nav1">
-              <a rel="nofollow" href="/wap/login.html">登录</a>
-              <a rel="nofollow" href="/wap/register.html">注册</a>
-            </span>
-            <a rel="nofollow" id="a_to_pc" href="http://www.aihuaju.com?to=pc&amp;s=1559274493158">电脑版</a>
-            <a rel="nofollow" href="/wap/member_feedback.html">反馈</a>
-          </div>
-          <div class="nav-link" id="dynamic_nav2">
-            <a rel="nofollow" href="/wap/search_order.html">订单查询&nbsp;&nbsp;<em class="split">|</em></a>
-            <a rel="nofollow" href="/wap/replenishment_order.html">&nbsp;&nbsp;在线补款</a>
-          </div>
-          <div class="copyright" style="color:#ddd;">
-            Copyright&nbsp;©&nbsp;2005-
-            2019 <a href="javascript:void(0);" style="color:#ddd;font-weight:300;font-size: 0.5rem">爱花居电子商务有限公司</a>版权所有 </div>
-        </div>
-      </footer>
-      <!-- 返回顶部按钮 -->
-      <div class="fix-block-r">
-        <a href="#app" class="gotop-btn gotop" id="goTopBtn">
-          <i>
-          </i>
-        </a>
-      </div>
+    <!-- 返回顶部按钮 -->
+    <div class="fix-block-r">
+      <a href="#app" class="gotop-btn gotop" id="goTopBtn">
+        <i>
+        </i>
+      </a>
+    </div>
+    <!-- 公共底部开始 -->
+    <!-- 美洽的代码 start -->
+    <script>
+      /**
+       * [处理未读消息]
+       * @param  {[string, object]} msg [string: 'hasBeenRead',
+       object: 未读消息数据]
+        */
+      function yourFunction(msg) {
+            var text = '',
+                num = 0;
+            if (msg === 'hasBeenRead') { // 消息已被阅读
+                num = 0;
+            } else if (typeof(msg) === 'object') {
+                var unreadNum = $('#unreadNum').html(),
+                    lastMsg = msg[msg.length - 1];
+                num = isNaN(+unreadNum) ? msg.length : +unreadNum + msg.length;
+                // content_type 是消息的类型：
+                // text（文字）、photo（图片）、file（文件）
+                // content 是消息的内容
+                if (lastMsg.content_type === 'text') {
+                    // 文字消息中可能会存在表情图片，由于路径问题
+                    // 将文字消息中的图片处理为文字'[表情]'
+                    text = lastMsg.content.replace(
+                        /<img [^>]*src=['"]([^'"]+)[^>]*>/gi, '[表情]'
+                    );
+                } else if (lastMsg.content_type === 'photo') {
+                    text = '[图片]';
+                } else if (lastMsg.content_type === 'file') {
+                    text = '[文件]';
+                } else {
+                    text = '[新消息]';
+                }
+            }
+            // 未读消息数量
+            if (num > 0) {
+                $('#unreadNum').html(num);
+                $('#unreadNum').css('display', 'block');
+            } else {
+                $('#unreadNum').hide();
+            }
+            // 最后一条消息的内容
+            /* document.getElementById('unreadMsg').innerHTML = text;
+              $('#unreadMsg').html(text);
+              $('#unreadMsg').show(text);*/
+        }
+    </script>
+    <script type="text/javascript">
+      (function (m, ei, q, i, a, j, s) {
+        m[i] = m[i] || function () {
+          (m[i].a = m[i].a || []).push(arguments)
+        };
+        j = ei.createElement(q),
+          s = ei.getElementsByTagName(q)[0];
+        j.async = true;
+        j.charset = 'UTF-8';
+        j.src = 'http://static.meiqia.com/dist/meiqia.js?_=t';
+        s.parentNode.insertBefore(j, s);
+      })(window, document, 'script', '_MEIQIA');
+      _MEIQIA('entId', 47341);
+      _MEIQIA('convClickCallback', function (type, convId) {
+        if (type === 'conv') {
+          var child = document.createElement('script'), parent = document.getElementsByTagName('head')[0];
+          child.async = true;
+          child.charset = 'UTF-8';
+          child.src = '//www.aihuaju.com/index.php?act=api&branch=conversations_from_mq&conv_id=' + convId;
+          child.onload = child.onreadystatechange = function () {
+            if (!this.readyState || this.readyState === "loaded" || this.readyState === "complete") {
+              setTimeout(function () {
+                parent.removeChild(child);
+              }, 100);
+            }
+          };
+          parent.appendChild(child);
+        }
+      });
+    </script>
+    <script type="text/javascript">
+      // 当你使用了「手动初始化」时，就可以在自己的逻辑中选择合适的时机调用 getUnreadMsg
+      // 只要是在美洽初始化之前，就可以被正确执行
+      _MEIQIA('getUnreadMsg', yourFunction);
+      _MEIQIA('withoutBtn');
+      _MEIQIA('init');
+    </script>
+    <!-- 美洽的代码 end -->
+
+    <!-- footer moban 1 -->
+    <div id='fm1' style='display: none;' class="common-footer">
       <!-- 底部导航，4个按钮 -->
       <footer id="footer_m" class="bottom" style="position:fixed;z-index:50000;">
         <div id="footnav" style="padding-bottom:0rem" class="footnav clearfix">
@@ -104,7 +171,7 @@
             </div>
             <script>
               function down_app() {
-                $.ajax({url: "/wap/index.php?act=index&op=ajax_app_url", data: {}, success: function (data) {
+                ajax({url: "/wap/index.php?act=index&op=ajax_app_url", data: {}, success: function (data) {
                     if (data.code == 1) {
                       window.location.href = data.url;
                     }
@@ -124,7 +191,7 @@
               </div>
             </div>
             <div class="item ye1">
-              <a href="tel:4006-728-555">
+              <a class='tel400' >
                 <img src="http://ahj.cm/static/images/ahj_phone.png" lazy="false" width="20%"><br>400电话
               </a>
             </div>
@@ -137,90 +204,256 @@
           </div>
         </div>
       </footer>
-      <!-- 美洽的代码 -->
-      <script>
-        /**
-         * [处理未读消息]
-         * @param  {[string, object]} msg [string: 'hasBeenRead',
-         object: 未读消息数据]
-          */
-        function yourFunction(msg) {
-              var text = '',
-                  num = 0;
-              if (msg === 'hasBeenRead') { // 消息已被阅读
-                  num = 0;
-              } else if (typeof(msg) === 'object') {
-                  var unreadNum = $('#unreadNum').html(),
-                      lastMsg = msg[msg.length - 1];
-                  num = isNaN(+unreadNum) ? msg.length : +unreadNum + msg.length;
-                  // content_type 是消息的类型：
-                  // text（文字）、photo（图片）、file（文件）
-                  // content 是消息的内容
-                  if (lastMsg.content_type === 'text') {
-                      // 文字消息中可能会存在表情图片，由于路径问题
-                      // 将文字消息中的图片处理为文字'[表情]'
-                      text = lastMsg.content.replace(
-                          /<img [^>]*src=['"]([^'"]+)[^>]*>/gi, '[表情]'
-                      );
-                  } else if (lastMsg.content_type === 'photo') {
-                      text = '[图片]';
-                  } else if (lastMsg.content_type === 'file') {
-                      text = '[文件]';
-                  } else {
-                      text = '[新消息]';
-                  }
-              }
-              // 未读消息数量
-              if (num > 0) {
-                  $('#unreadNum').html(num);
-                  $('#unreadNum').css('display', 'block');
-              } else {
-                  $('#unreadNum').hide();
-              }
-              // 最后一条消息的内容
-              /* document.getElementById('unreadMsg').innerHTML = text;
-               $('#unreadMsg').html(text);
-               $('#unreadMsg').show(text);*/
-          }
-      </script>
-      <script type="text/javascript">
-        (function (m, ei, q, i, a, j, s) {
-          m[i] = m[i] || function () {
-            (m[i].a = m[i].a || []).push(arguments)
-          };
-          j = ei.createElement(q),
-            s = ei.getElementsByTagName(q)[0];
-          j.async = true;
-          j.charset = 'UTF-8';
-          j.src = 'http://static.meiqia.com/dist/meiqia.js?_=t';
-          s.parentNode.insertBefore(j, s);
-        })(window, document, 'script', '_MEIQIA');
-        _MEIQIA('entId', 47341);
-        _MEIQIA('convClickCallback', function (type, convId) {
-          if (type === 'conv') {
-            var child = document.createElement('script'), parent = document.getElementsByTagName('head')[0];
-            child.async = true;
-            child.charset = 'UTF-8';
-            child.src = '//www.aihuaju.com/index.php?act=api&branch=conversations_from_mq&conv_id=' + convId;
-            child.onload = child.onreadystatechange = function () {
-              if (!this.readyState || this.readyState === "loaded" || this.readyState === "complete") {
-                setTimeout(function () {
-                  parent.removeChild(child);
-                }, 100);
-              }
-            };
-            parent.appendChild(child);
-          }
-        });
-      </script>
-      <script type="text/javascript">
-        // 当你使用了「手动初始化」时，就可以在自己的逻辑中选择合适的时机调用 getUnreadMsg
-        // 只要是在美洽初始化之前，就可以被正确执行
-        _MEIQIA('getUnreadMsg', yourFunction);
-        _MEIQIA('withoutBtn');
-        _MEIQIA('init');
-      </script>
     </div>
+    <!-- footer moban 2 -->
+    <div id='fm4' style='display: none;'>
+      <style>
+          .float{width: 25.6rem; height: 3.56rem; border-top: 1px solid #E3E2E7; position: fixed; bottom: 0; background: #fff; z-index: 999;}
+          .float ul li{float: left; color: #333333; width: 4.3rem; height: 3.16rem; text-align: center; font-size: 0.88rem; padding-top: 0.4rem; margin: 0 0.23rem; position: relative;}
+          .float ul li.home img{width: 1.64rem; height: 1.48rem;}
+          .float ul li.menu img{width: 1.64rem; height: 1.48rem;}
+          .float ul li.kf img{width: 1.64rem; height: 1.48rem;}
+          .float ul li.u_all img{width: 1.48rem; height: 1.48rem;}
+          .float ul li.tel{width: 6rem; line-height: 1.7rem;}
+          .float ul li.tel a{width: 3.2rem; height: 3.2rem; display: block; border-radius: 100%; background: #eee; position: absolute; top: -1rem; right: 1.4rem; text-align: center; box-shadow: 0 0 0 1px #eee;}
+          .float ul li.tel img{width: 3.1rem; height: 3.1rem; padding-top: 0.05rem;}
+          .float ul li a{color: #333333;}
+          .float ul li a p{margin-top: 0.2rem; font-size: 0.9rem;}
+      </style>
+      <div class="float layout" id="bottom-nav-f">
+        <ul>
+            <li class="home"><a href="/wap/"><img src="./img/home.png"><p>首页</p></a></li>
+            <li class="menu"><a href="/wap/category.html"><img src="./img/meun.png"><p>分类</p></a></li>
+            <li class="tel">
+              <a href="javascript:" onclick="_MEIQIA('showPanel')"><img src="./img/ahj_kefu.png">
+              <p>在线客服</p></a>
+              <script type="text/javascript">
+                hz6d_fixed_conf["2"] = {};
+                hz6d_fixed_conf["2"].text = '<img src="./img/ahj_kefu.png">';
+                hz6d_fixed_conf["2"].style = "";
+                hz6d_fixed_conf["2"].kf = "";
+                hz6d_FixedKF("txt","2");
+              </script>
+            </li>
+            <li class="kf">
+                <a class='tel400' ><img src="./img/dianhua.png"></a><p>电话</p>
+            </li>
+            <li class="u_all"><a href="/wap/member"><img src="./img/u_all.png"><p>我的</p></a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- footer moban 3 -->
+    <div id='fm2' style='display: none;'>
+      <style>
+        .left{float: left;}
+        .new_layout_bottom {width: 100%; height: auto; overflow: hidden; position: fixed; background: #fff; border-top: 1px solid #EEEEEE; box-shadow: 0px 0px 3px #EEEEEE; margin: auto; bottom: 0; z-index: 999;}
+        .new_layout_bottom .item{float: left; height: 2.rem;}
+        .new_layout_bottom .all{width: 15%; text-align: center; font-size: 0.8rem; line-height: 1.4rem; padding-top: 5px;}
+        .new_layout_bottom .all a{color: #4e4d4b;}
+        .new_layout_bottom .index{width: 15%; text-align: center; font-size: 0.8rem; line-height: 1.4rem; padding-top: 5px;}
+        .new_layout_bottom .index a{color: #4e4d4b;}
+        .new_layout_bottom .ye1{width: 30%; background-color: #FE8954;}
+        .new_layout_bottom .ye1 a{color: #fff; text-align: center;}
+        .new_layout_bottom .ye1 .desc{font-size: 0.7rem;}
+        .new_layout_bottom .ye1 .tel{line-height: 2.8rem; margin-top: 0.3rem;}
+        .new_layout_bottom .re1{width: 40%; background-color: #FC403E; text-align: center; position: relative;}
+        .new_layout_bottom .re1 a{color: #fff;}
+        .new_layout_bottom .re1 .zixun{line-height: 2.8rem; margin-top: 0.3rem;}
+        .new_layout_bottom .ye1 img,.new_layout_bottom .re1 img{margin-top: .7rem;}
+        .new_layout_bottom .re1 .unreadNum{position: absolute; top: 0.3rem; right: 0.05rem; border-radius: 100%; width: 1.2rem; height: 1.2rem; display: none; background-color: #fff; text-align: center; line-height: 1.2rem; color: #FC403E; font-size: 0.8rem;}
+      </style>
+      <div class="new_layout_bottom">
+        <div class="item index">
+            <a href="/wap/" style="color: red">
+                <img src="http://ahj.cm/data/upload/images/index.png" lazy="false" width="30%"><br>首页
+            </a>
+        </div>
+        <div class="item all">
+            <a href="/wap/category.html">
+                <img src="./img/fenlei.jpg" lazy="false" width="30%"><br>分类
+            </a>
+        </div>
+        <div class="item ye1">
+            <a class='tel400' >
+                <div class="left" style="margin-left: 0.5rem;">
+                    <img src="./img/new_tel.png" lazy="false" width="75%">
+                </div>
+                <div class="left tel">
+                    <!--<p></p>
+                    <p class="desc">拨打免费电话</p>-->
+                    免费电话
+                </div>
+            </a>
+        </div>
+        <div class="item re1">
+            <span class="unreadNum" id="unreadNum" onclick="_MEIQIA('showPanel')">1</span>
+            <a href="javascript:void(0)" onclick="_MEIQIA('showPanel')">
+                <div class="left" style="margin-left: 0.5rem;">
+                    <img src="./img/zixun.png" lazy="false" width="80%">
+                </div>
+                <div class="left zixun">
+                    1对1客服咨询            </div>
+            </a>
+        </div>
+      </div>
+    </div>
+    <!-- footer moban 4 -->
+    <div id='fm3' style='display: none;'>
+      <style>
+        .float-consult{position: fixed;right: 0;top: 30%;z-index: 10}
+        .float-consult a{display: block;width: 2.3rem;position: relative;}
+        .float-consult a img{width: 100%;}
+        .float-consult a span{display: block;width:1rem;position: absolute;left: 52%;top: 2.6rem;color: #fff;font-size: 0.8rem;word-break: break-all;word-wrap: break-word;transform: translateX(-50%);}
+        .wap_bottom {
+            width: 100%;
+            height: auto;
+            overflow: hidden;
+            position: fixed;
+            bottom: 0;
+            z-index: 999;
+            background-color: #fff;
+            border-top: 1px solid #E2E2E2;
+        }
+        .wap_bottom a{
+            display: block;
+            text-align: center;
+            font-size: 0.7rem;
+            float: left;
+            color: #666;
+            padding-bottom: 0.1rem;
+        }
+        .wap_bottom a:nth-child(1){
+            width: 19%;
+            border-right: 1px solid #E2E2E2;
+        }
+        .wap_bottom a:nth-child(2){
+            width: 20%;
+        }
+        .wap_bottom a:nth-child(3){
+            width: 30%;
+            background-color: #FF4A13;
+            color: #fff;
+            float: right;
+        }
+        .wap_bottom a:nth-child(4){
+            width: 30%;
+            background-color: #FD8046;
+            color: #fff;
+            float: right;
+        }
+        .wap_bottom a i{display: block;
+            width: 1.32rem;
+            height: 1.5rem;
+            background-repeat: no-repeat;
+            background-size: contain;
+            margin: 0.3rem auto 0.2rem;
+        }
+        .wap_bottom a i.icon-home{width: 1.3rem; background-image: url("./img/chengsehome.png");}
+        .wap_bottom a i.icon-navcart{width: 1.3rem; background-image: url("./img/menu_combine.png");}
+        .wap_bottom a i.icon-tel{width: 1.5rem; background-image: url("./img/phone.png");}
+        .wap_bottom a i.icon-kf{width: 1.5rem; background-image: url("./img/chengsezixun.png");}
+      </style>
+      <div class="wap_bottom">
+          <a href="/wap"><i class="icon-home"></i>
+              <p>首页</p></a>
+          <a href="/wap/search-20-347-0-0-0.html"><i class="icon-navcart"></i>
+              <p>组合推荐</p></a>
+          <a href="javascript:;" onclick="_MEIQIA('showPanel')"><i class="icon-kf"></i>
+              <p>订花咨询</p></a>
+          <a class='tel400' ><i class="icon-tel"></i>
+              <p>电话咨询</p></a>
+      </div>
+    </div>
+    <!-- footer moban 5 -->
+    <div id='fm5' style='display: none;'>
+      <footer id="footer_m" class="bottom" style="position:fixed;z-index:50000;">
+        <div id="footnav" style="padding-bottom:0rem" class="footnav clearfix">
+          <style>
+            .flex_layout .item {
+              flex-grow: 1
+            }
+      
+            .flex_layout .ye1 {
+              background-color: #f95b8b;
+              color: #fff;
+            }
+      
+            .flex_layout .ye1 img {
+              margin-top: 0.2rem;
+            }
+      
+            .flex_layout .re1 {
+              background-color: #f11a55;
+              color: #fff;
+            }
+      
+            .flex_layout .re1 img {
+              margin-top: 0.2rem;
+            }
+      
+            .unreadNum {
+              width: 0.8rem !important;
+              height: 0.8rem !important;
+              line-height: 0.8rem !important;
+              margin-left: 3rem;
+            }
+          </style>
+          <div class="new_layout_bottom flex_layout">
+            <div class="item all" style="flex-grow: 1; border-right: 1px solid #efefef;">
+              <a href="/wap/category.html" style="color: #000000; line-height: 1rem;">
+                <img src="http://ahj.cm/wap/templates/zgxhsc/images/fennei.png" lazy="false" width="30%"><br>分类
+              </a>
+            </div>
+            <div class="item index" style="flex-grow: 1; border-right: 1px solid #efefef;" onclick="down_app()">
+              <a href="/wap/cart" style="color: #000000; line-height: 1rem;">
+                <img src="http://ahj.cm/wap/templates/zgxhsc/images/card_icon.png" lazy="false" width="30%"><br>购物车
+              </a>
+            </div>
+            <div class="item ye1" style="flex-grow: 1;background-color: #fff;">
+              <a class='tel400' style="color: #000000;" >
+                <img src="http://ahj.cm/wap/templates/zgxhsc/images/zgxhsc_tel.jpg" lazy="false" width="26%"><br>免费电话
+              </a>
+            </div>
+            <div class="item re1" style="flex-grow: 4">
+              <a href="javascript:void(0)" onclick="_MEIQIA('showPanel')">
+                <img src="http://ahj.cm/wap/templates/zgxhsc/images/zgxhsc_kf.jpg" lazy="false" width="15%"><br>1对1订花服务
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <!-- // 增加模板时需要修改下方 jq 中的 mobanlen
+      並且需要找到对应的电话节点(一个a标签)，增加类名 tel400
+    -->
+    <script>
+      $(function () {
+        // 判断当前域名应该使用哪个底部
+        let mobanlen = 5 // 模板个数，增加模板时需要修改此处
+        $.ajax({
+          url: baseUrl + '/index.php?act=api&op=site_setting',
+          type: 'POST',
+          headers: {
+            "content-type": "application/x-www-form-urlencoded"
+          },
+          data: {
+            site_host: location.host
+          },
+          dataType: 'json',
+          success: function (res) {
+            let show = res.data.footer_id
+            for (let i = 1; i <= mobanlen; i++) {
+              if (i != show)
+                $("#fm" + i).remove()
+              else
+                $("#fm" + i).show()
+            }
+            $('.tel400').attr('href', 'tel:'+res.data.phone)
+          }
+        })
+      })
+    </script>
+    <!-- 公共底部结束 -->
     <script src="./js/index.js"></script>
   </body>
 </html>
