@@ -227,13 +227,13 @@
             <li class="tel">
               <a href="javascript:" onclick="_MEIQIA('showPanel')"><img src="./img/ahj_kefu.png">
               <p>在线客服</p></a>
-              <script type="text/javascript">
+              <!-- <script type="text/javascript">
                 hz6d_fixed_conf["2"] = {};
                 hz6d_fixed_conf["2"].text = '<img src="./img/ahj_kefu.png">';
                 hz6d_fixed_conf["2"].style = "";
                 hz6d_fixed_conf["2"].kf = "";
                 hz6d_FixedKF("txt","2");
-              </script>
+              </script> -->
             </li>
             <li class="kf">
                 <a class='tel400' ><img src="./img/dianhua.png"></a><p>电话</p>
@@ -431,7 +431,7 @@
         // 判断当前域名应该使用哪个底部
         let mobanlen = 5 // 模板个数，增加模板时需要修改此处
         $.ajax({
-          url: baseUrl + '/index.php?act=api&op=site_setting',
+          url: '/index.php?act=api&op=site_setting',
           type: 'POST',
           headers: {
             "content-type": "application/x-www-form-urlencoded"

@@ -1,42 +1,24 @@
-### 包含功能：
-1. 模板渲染，使用vue
-2. 网络请求使用本项目自带请求方法(以移除，使用jq的，因为反正都要引入jq, 就把我自己的砍掉了)
-```javascript
-    ajax({
-        url: String,
-        method: 'POST|GET|PUT', // 默认GET
-        data: Object,
-        success: Function, // 接口请求成功   请求回的code为200
-        beforSend: Function, // 请求发送之前执行的函数
-        isFormData: Boolean,
-        returnIsJSON: Boolean, // true: 返回的不是json对象，不使用JSON模块转换
-    })
-```
-3. 多功能常用工具库（砍掉了，不过）：
-```javascript
-    hoye: {
-        getQueryString: getQueryString, // 获取url携带的参数
-        delCookie: delCookie, // 删除 cookie
-        setCookie: setCookie, // 设置 cookie
-        scrollto: scrollto, // 页面滚动
-        getDom: getDom // 获取dom  类似jq的 $('') 元素选择器，返回的是dom元素
-    }
-```
-4. 自带极简弹框插件smoke.js
-```javascript
-    <link href='./css/smoke.css'></link>
-    <script src='./lib/smoke.js'></script>
-    <script>
-        smoke.alert('') // 弹出框
-        smoke.confirm('', function () {}) // 确认框
-    </script>
-```
+#tfxk_zt_cli
+  专题专用gulp模板，拥有以下特性。
+  + 压缩图片
+  + 开发热更新
+  + 开发时代理接口地址
 
-5. MD5加密模块
-```javascript
+  + less
+  + 自动增加css兼容前缀
+  + 压缩css（默认未开启）
 
-```
-6. 验证模块
+  + html 使用 vue.js 做专门的模板渲染
+  + 压缩html（默认未开启）
+
+  + 压缩丑化js
+  + js 文件 es6转es5
+  + 如果不想js被转换和压缩，可以将 js 放进 lib 文件夹
+
+### 拥有包：
+1. vue, better-scroll, jquery, rem(100px 版本和 25px 版本)
+
+2. 验证模块
 ```javascript
     <script src='./js/verify.js'></script>
     // or

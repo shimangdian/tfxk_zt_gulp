@@ -26,6 +26,7 @@
     "gulp-rename": "^1.4.0",
     "gulp-sequence": "^1.0.0",
     "gulp-uglify": "^3.0.1",
+    "http-proxy-middleware": "^0.19.1",
     "vinyl-source-stream": "^2.0.0"
   },
   "scripts": {

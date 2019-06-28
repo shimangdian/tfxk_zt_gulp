@@ -13,6 +13,8 @@ var gulpSequence = require('gulp-sequence')
 var browserSync = require('browser-sync').create();
 var plumber = require('gulp-plumber');
 var imageMin = require('gulp-imagemin'); // 图片压缩
+var proxy = require('http-proxy-middleware'); // 请求代理
+
 let staticSrc = 'zt_gulp_project'
 const htmlOption = {
   collapseWhitespace:true,
@@ -78,11 +80,17 @@ gulp.task('indexhtml', function() {
 //     .pipe(htmlmin(htmlOption))
 //     .pipe(gulp.dest(staticSrc +'/html'))
 // });
+var jsonPlaceholderProxy = proxy('/index.php', {
+  target: 'http://www.aihuaju.com',
+  changeOrigin: true,
+  logLevel: 'debug'
+})
 //预设任务
 gulp.task('default', gulpSequence('indexhtml', 'scriptsJs', 'copyLib', 'less', 'image', function (){
     browserSync.init({
       server: {
         baseDir: staticSrc + '/',
+        middleware: [jsonPlaceholderProxy]
       }
     })
     // 监视所有css、js、html、less
