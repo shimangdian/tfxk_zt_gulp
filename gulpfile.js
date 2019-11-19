@@ -15,35 +15,37 @@ var plumber = require('gulp-plumber');
 var imageMin = require('gulp-imagemin'); // 图片压缩
 var proxy = require('http-proxy-middleware'); // 请求代理
 
-let staticSrc = 'zt_gulp_project'
+let staticSrc = 'dist'
 const htmlOption = {
-  collapseWhitespace:true,
-  collapseBooleanAttributes:true,
-  removeComments:true,
-  removeEmptyAttributes:true,
-  removeScriptTypeAttributes:true,
-  removeStyleLinkTypeAttributes:true,
-  minifyJS:false,
-  minifyCSS:false   
+  collapseWhitespace: true,
+  collapseBooleanAttributes: true,
+  removeComments: true,
+  removeEmptyAttributes: true,
+  removeScriptTypeAttributes: true,
+  removeStyleLinkTypeAttributes: true,
+  minifyJS: false,
+  minifyCSS: false
 }
 // img
 gulp.task('image', function () {
   return gulp.src('src/img/*.*')
-    .pipe(imageMin({progressive: true}))
-    .pipe(gulp.dest(staticSrc +'/img/'))   //改变后的位置
+    .pipe(imageMin({
+      progressive: true
+    }))
+    .pipe(gulp.dest(staticSrc + '/img/')) //改变后的位置
 });
 // js脚本
-gulp.task('scriptsJs', function() {
+gulp.task('scriptsJs', function () {
   return gulp.src('src/js/*.js')
     .pipe(plumber())
     .pipe(babel())
     .pipe(uglify()) //压缩js
-    .pipe(gulp.dest(staticSrc +'/js/'))
+    .pipe(gulp.dest(staticSrc + '/js/'))
 });
 // lib
 gulp.task('copyLib', function () {
   return gulp.src('src/lib/*.*')
-    .pipe(gulp.dest(staticSrc +'/lib/'))
+    .pipe(gulp.dest(staticSrc + '/lib/'))
 })
 // browserify
 // gulp.task("browserify", function () {
@@ -57,19 +59,21 @@ gulp.task('copyLib', function () {
 // less
 gulp.task('less', function () {
   var plugins = [
-    autoprefixer({browsers: ['last 50 version']}),
+    autoprefixer({
+      browsers: ['last 50 version']
+    }),
     cssnano()
   ];
   return gulp.src('src/less/**/*.less')
     .pipe(plumber())
     .pipe(less({
-      paths: [ path.join(__dirname, 'less', 'includes') ]
+      paths: [path.join(__dirname, 'less', 'includes')]
     }))
     .pipe(postcss(plugins))
-    .pipe(gulp.dest(staticSrc +'/css'));
+    .pipe(gulp.dest(staticSrc + '/css'));
 });
 //index.html
-gulp.task('indexhtml', function() {
+gulp.task('indexhtml', function () {
   return gulp.src('src/*.html')
     // .pipe(htmlmin(htmlOption))
     .pipe(gulp.dest(staticSrc + '/'))
@@ -86,20 +90,20 @@ var jsonPlaceholderProxy = proxy('/index.php', {
   logLevel: 'debug'
 })
 //预设任务
-gulp.task('default', gulpSequence('indexhtml', 'scriptsJs', 'copyLib', 'less', 'image', function (){
-    browserSync.init({
-      server: {
-        baseDir: staticSrc + '/',
-        middleware: [jsonPlaceholderProxy]
-      }
-    })
-    // 监视所有css、js、html、less
-    gulp.watch('src/less/*.less', ['less']).on('change', browserSync.reload)
-    gulp.watch('src/img/*.{png,jpg}', ['image']).on('change', browserSync.reload)
-    gulp.watch('src/js/*.js', ['scriptsJs']).on('change', browserSync.reload)
-    gulp.watch('src/*.html', ['indexhtml']).on('change', browserSync.reload)
-    gulp.watch('src/html/*.html', ['html']).on('change', browserSync.reload)
-    gulp.watch('src/lib/*.*', ['copyLib']).on('change', browserSync.reload)
+gulp.task('default', gulpSequence('indexhtml', 'scriptsJs', 'copyLib', 'less', 'image', function () {
+  browserSync.init({
+    server: {
+      baseDir: staticSrc + '/',
+      middleware: [jsonPlaceholderProxy]
+    }
+  })
+  // 监视所有css、js、html、less
+  gulp.watch('src/less/*.less', ['less']).on('change', browserSync.reload)
+  gulp.watch('src/img/*.{png,jpg}', ['image']).on('change', browserSync.reload)
+  gulp.watch('src/js/*.js', ['scriptsJs']).on('change', browserSync.reload)
+  gulp.watch('src/*.html', ['indexhtml']).on('change', browserSync.reload)
+  gulp.watch('src/html/*.html', ['html']).on('change', browserSync.reload)
+  gulp.watch('src/lib/*.*', ['copyLib']).on('change', browserSync.reload)
 }))
 
 gulp.task('build', function () {
