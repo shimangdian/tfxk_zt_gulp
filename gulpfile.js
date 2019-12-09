@@ -4,34 +4,17 @@ var autoprefixer = require('autoprefixer');
 var cssnano = require('cssnano');
 var less = require('gulp-less');
 var path = require('path');
-var htmlmin = require('gulp-htmlmin');
 var babel = require('gulp-babel');
 var uglify = require('gulp-uglify');
-var browserify = require("browserify");
-var source = require("vinyl-source-stream");
 var gulpSequence = require('gulp-sequence')
 var browserSync = require('browser-sync').create();
 var plumber = require('gulp-plumber');
-var imageMin = require('gulp-imagemin'); // 图片压缩
 var proxy = require('http-proxy-middleware'); // 请求代理
 
 let staticSrc = 'dist'
-const htmlOption = {
-  collapseWhitespace: true,
-  collapseBooleanAttributes: true,
-  removeComments: true,
-  removeEmptyAttributes: true,
-  removeScriptTypeAttributes: true,
-  removeStyleLinkTypeAttributes: true,
-  minifyJS: false,
-  minifyCSS: false
-}
 // img
 gulp.task('image', function () {
   return gulp.src('src/img/*.*')
-    .pipe(imageMin({
-      progressive: true
-    }))
     .pipe(gulp.dest(staticSrc + '/img/')) //改变后的位置
 });
 // js脚本
